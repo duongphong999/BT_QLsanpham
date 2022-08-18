@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* table{
+            border-collapse: collapse;
+        } */
+        /* td,th{
+            
+            text-align: right;
+        } */
+    </style>
+</head>
+
+<body>
+    <div>
+        <table>
+            <tr>
+                <th colspan="2">
+                    <h2>Add new product</h2>
+                </th>
+
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="id">ID:</label> </td>
+                <td><input type="text" id="id"></td>
+
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="">Product:</label></td>
+                <td><input type="text" id="input" placeholder="input new product"></td>
+            </tr>
+            <tr>
+                <td colspan="2"> <button style="margin: 20px 90px 0  ;" type="button" id="addbtn"
+                        onclick="addData();">Add</button></td>
+            </tr>
+        </table>
+
+        <br>
+
+
+    </div>
+    <br>
+    <h2>
+        Display all product
+    </h2>
+    <div id="database"></div>
+
+
+    <script>
+        let data = [];
+
+
+        // check trung id
+        function checkID(id) {
+            let list = data;
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].id == id) {
+                    return true;
+                }
+            }
+        }
+        // thêm mới
+        function addData() {
+            let id = document.getElementById("id").value;
+            let product = document.getElementById("input").value;
+
+            let item = {
+                id: id,
+                product: product //bên trái là key, phải là value
+            };
+            if(!checkID(id)){
+                data.push(item);
+            }else{
+                alert('trùng id rồi bạn ơi !');
+                
+            }
+            let index = data.findIndex((c) => c.id == item.id) //tìm đến vị trí cần sửa và thay thế
+            if (index >= 0) {
+                data.splice(index, 1, item)
+            } else {
+                data.push(item);
+
+            }
+            viewData();
+            clear();
+
+
+        }
+        //view
+        function viewData() {
+            let list = data;
+            let table = '<table border="1px"><tr><th>ID</th><th>Product Name</th><th colspan="2">Actions</th></tr>'
+
+            for (let i = 0; i < list.length; i++) {
+                table += '<tr>';
+                table += '<td>' + list[i].id + '</td>';
+                table += '<td>' + list[i].product + '</td>';
+                table += '<td><button onclick="editData(' + list[i].id + ')">Edit</button></td>';
+                table += '<td><button onclick="deleteData(' + list[i].id + ');"> Delete</button></td>';
+
+                table += '</tr>';
+            }
+
+            table += '</table>';
+            document.getElementById('database').innerHTML = table;
+        }
+        //delete
+        function deleteData(id) {
+            let list = data;
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].id == id) {
+                    list.splice(i, 1);
+                    viewData();
+                }
+            }
+            if (list.length == 0) {
+                document.getElementById("database").innerHTML = "";
+            }
+
+        }
+        //edit
+        function editData(id) {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].id == id) {
+                    document.getElementById("id").value = data[i].id;
+                    document.getElementById("input").value = data[i].product;
+                    document.getElementById("addbtn").innerHTML='update';
+                }
+            }
+        }
+        //clear form
+        function clear() {
+            document.getElementById('id').value = "";
+            document.getElementById('input').value = "";
+        }
+    </script>
+</body>
+
+</html>
