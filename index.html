@@ -74,12 +74,12 @@
                 id: id,
                 product: product //bên trái là key, phải là value
             };
-            if(!checkID(id)){
-                data.push(item);
-            }else{
-                alert('trùng id rồi bạn ơi !');
+            // if(!checkID(id)){
+            //     data.push(item);
+            // }else{
+            //     alert('trùng id rồi bạn ơi !');
                 
-            }
+            // }
             let index = data.findIndex((c) => c.id == item.id) //tìm đến vị trí cần sửa và thay thế
             if (index >= 0) {
                 data.splice(index, 1, item)
